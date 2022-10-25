@@ -1,7 +1,53 @@
 # React Hooks
 
+## Summary
+
+- [JavaScript](https://github.com/chesterheng/javascript-concepts)
+- React
+  - [New Features](https://github.com/chesterheng/react-new-features)
+  - Boilerplates
+    - [create-react-app](https://reactjs.org/docs/create-a-new-react-app.html)
+    - [vite](https://vitejs.dev/guide/)
+  - [Folders](https://github.com/chesterheng/react-folders)
+  - [Events](https://github.com/chesterheng/react-events)
+  - [Patterns](https://github.com/chesterheng/react-patterns)
+  - [Storybook](https://github.com/chesterheng/react-storybook)
+  - [Performance](https://github.com/chesterheng/react-performance)
+  - [Security](https://github.com/chesterheng/react-security)
+  - [Testing](https://github.com/chesterheng/react-testing)
+- Client State Management
+  - [useState](https://github.com/chesterheng/use-state-poc)
+    - lazy initialisation
+    - functional update
+    - single onChange function
+    - store id
+  - [useReducer](https://github.com/chesterheng/use-reducer-poc)
+    - update multiple states
+  - [useContext](https://github.com/chesterheng/react-hooks/blob/main/src/context/countContext.js) and use[State]
+  - redux
+    - [redux toolkit](https://github.com/chesterheng/redux-toolkit)
+    - useSelector and useDispatch
+- Server State Management
+  - [react query](https://github.com/chesterheng/react-query)
+    - useQuery and useMutation
+- Perform Side Effects
+  - [useEffect](https://github.com/chesterheng/use-effect-poc)
+    - dependency guard
+    - primitive based dependency
+    - cleanup function
+    - fetch and abort
+  - useLayoutEffect
+    - animation
+- React Performance
+  - [useMemo](https://github.com/chesterheng/use-memo-poc)
+  - useCallback
+- More hooks
+  - [useRef](https://github.com/chesterheng/react-hooks/blob/main/src/components/RefHook.js)
+    - no re-render
+    - access DOM element
+    - track state change
+- Reference
+  - [Front End Interview Handbook](https://www.frontendinterviewhandbook.com/)
+  - [The ultimate Front End Interview preparation platform](https://www.greatfrontend.com/)
+  - [Frontend Mentor](https://www.frontendmentor.io/)
 - [Questions](https://www.notion.so/chesterheng/React-Hooks-8e53853a81de451c90efaa3f5755b0f8)
-- [useState examples](https://github.com/chesterheng/use-state-poc)
-- [useEffect examples](https://github.com/chesterheng/use-effect-poc)
-- [useReducer examples](https://github.com/chesterheng/use-reducer-poc)
-- [useMemo examples](https://github.com/chesterheng/use-memo-poc)
