@@ -1,20 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
-const STATUS = {
-  IDLE: "idle",
-  PENDING: "pending",
-  RESOLVED: "resolved",
-  REJECTED: "rejected",
-};
-
 const formatDate = (date) =>
   `${date.getHours()}:${String(date.getMinutes()).padStart(2, "0")} ${String(
     date.getSeconds()
   ).padStart(2, "0")}.${String(date.getMilliseconds()).padStart(3, "0")}`;
 
 // the delay argument is for faking things out a bit
-function fetchPokemon(name, delay = 1500) {
+const fetchPokemon = (name, delay = 1500) => {
   const pokemonQuery = `
     query PokemonInfo($name: String) {
       pokemon(name: $name) {
@@ -67,9 +60,9 @@ function fetchPokemon(name, delay = 1500) {
         return Promise.reject(error);
       }
     });
-}
+};
 
-function PokemonInfoFallback({ name }) {
+const PokemonInfoFallback = ({ name }) => {
   const initialName = useRef(name).current;
   const fallbackPokemonData = {
     name: initialName,
@@ -84,9 +77,9 @@ function PokemonInfoFallback({ name }) {
     fetchedAt: "loading...",
   };
   return <PokemonDataView pokemon={fallbackPokemonData} />;
-}
+};
 
-function PokemonDataView({ pokemon }) {
+const PokemonDataView = ({ pokemon }) => {
   return (
     <div>
       <div className="pokemon-info__img-wrapper">
@@ -113,13 +106,13 @@ function PokemonDataView({ pokemon }) {
       <small className="pokemon-info__fetch-time">{pokemon.fetchedAt}</small>
     </div>
   );
-}
+};
 
-function PokemonForm({
+const PokemonForm = ({
   pokemonName: externalPokemonName,
   initialPokemonName = externalPokemonName || "",
   onSubmit,
-}) {
+}) => {
   const [pokemonName, setPokemonName] = useState(initialPokemonName);
 
   // this is generally not a great idea. We're synchronizing state when it is
@@ -134,19 +127,19 @@ function PokemonForm({
     }
   }, [externalPokemonName]);
 
-  function handleChange(e) {
+  const handleChange = (e) => {
     setPokemonName(e.target.value);
-  }
+  };
 
-  function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(pokemonName);
-  }
+  };
 
-  function handleSelect(newPokemonName) {
+  const handleSelect = (newPokemonName) => {
     setPokemonName(newPokemonName);
     onSubmit(newPokemonName);
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="pokemon-form">
@@ -189,9 +182,9 @@ function PokemonForm({
       </div>
     </form>
   );
-}
+};
 
-function ErrorFallback({ error, resetErrorBoundary }) {
+const ErrorFallback = ({ error, resetErrorBoundary }) => {
   return (
     <div role="alert">
       There was an error:{" "}
@@ -199,17 +192,16 @@ function ErrorFallback({ error, resetErrorBoundary }) {
       <button onClick={resetErrorBoundary}>Try again</button>
     </div>
   );
-}
+};
 
-function PokemonErrorBoundary(props) {
+const PokemonErrorBoundary = (props) => {
   return <ErrorBoundary FallbackComponent={ErrorFallback} {...props} />;
-}
+};
 
 export {
   PokemonInfoFallback,
   PokemonForm,
   PokemonDataView,
   fetchPokemon,
-  PokemonErrorBoundary,
-  STATUS,
+  PokemonErrorBoundary
 };

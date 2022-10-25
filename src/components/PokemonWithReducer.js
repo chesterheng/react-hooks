@@ -1,50 +1,47 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import {
   fetchPokemon,
   PokemonInfoFallback,
   PokemonForm,
   PokemonDataView,
-  STATUS,
 } from "../api/pokemonApi";
 import { ErrorFallback } from "./Error";
+import { useAsync } from "../hooks/useAsync";
+import { STATUS_ACTIONS } from "../reducers/asyncReducer";
 
 const PokemonInfo = ({ pokemonName }) => {
-  const [state, setState] = useState({
-    status: pokemonName ? STATUS.PENDING : STATUS.IDLE,
-    pokemon: null,
-    error: null,
+  const {
+    data: pokemon,
+    error,
+    status,
+    run,
+  } = useAsync({
+    status: pokemonName ? STATUS_ACTIONS.PENDING : STATUS_ACTIONS.IDLE,
   });
-  const { status, pokemon, error } = state;
 
   useEffect(() => {
     if (!pokemonName) {
       return;
     }
-    setState({ ...state, status: STATUS.PENDING });
-    fetchPokemon(pokemonName).then(
-      (pokemon) => {
-        setState({ ...state, status: STATUS.RESOLVED, pokemon });
-      },
-      (error) => {
-        setState({ ...state, status: STATUS.REJECTED, error });
-      }
-    );
-  }, [pokemonName]);
+    run(fetchPokemon(pokemonName));
+  }, [pokemonName, run]);
 
-  if (status === STATUS.IDLE) {
-    return "Submit a pokemon";
-  } else if (status === STATUS.PENDING) {
-    return <PokemonInfoFallback name={pokemonName} />;
-  } else if (status === STATUS.REJECTED) {
-    throw error;
-  } else if (status === STATUS.RESOLVED) {
-    return <PokemonDataView pokemon={pokemon} />;
+  switch (status) {
+    case STATUS_ACTIONS.IDLE:
+      return <span>Submit a pokemon</span>;
+    case STATUS_ACTIONS.PENDING:
+      return <PokemonInfoFallback name={pokemonName} />;
+    case STATUS_ACTIONS.REJECTED:
+      throw error;
+    case STATUS_ACTIONS.RESOLVED:
+      return <PokemonDataView pokemon={pokemon} />;
+    default:
+      throw new Error("This should be impossible");
   }
-  throw new Error("This should be impossible");
 };
 
-const Pokemon = () => {
+const PokemonWithReducer = () => {
   const [pokemonName, setPokemonName] = useState("");
 
   const handleSubmit = (newPokemonName) => {
@@ -71,4 +68,4 @@ const Pokemon = () => {
   );
 };
 
-export { Pokemon };
+export { PokemonWithReducer };
